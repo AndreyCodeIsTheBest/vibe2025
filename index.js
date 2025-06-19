@@ -1,4 +1,4 @@
-const http = require('http');
+@@ -2,86 +2,112 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2/promise');
@@ -18,16 +18,16 @@ const dbConfig = {
     try {
       // Create a connection to the database
       const connection = await mysql.createConnection(dbConfig);
-      
+
       // Query to select all items from the database
       const query = 'SELECT id, text FROM items';
-      
+
       // Execute the query
       const [rows] = await connection.execute(query);
-      
+
       // Close the connection
       await connection.end();
-      
+
       // Return the retrieved items as a JSON array
       return rows;
     } catch (error) {
@@ -65,10 +65,10 @@ async function handleRequest(req, res) {
                 path.join(__dirname, 'index.html'), 
                 'utf8'
             );
-            
+
             // Replace template placeholder with actual content
             const processedHtml = html.replace('{{rows}}', await getHtmlRows());
-            
+
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(processedHtml);
         } catch (err) {
